@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Bloom</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="index.html" class="logo"><strong>Alan Michael Diaz</strong></a>
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>Bloom</h1>
+									</header>
+
+									<span class="image main"><img src="images/Bloom Screenshot 1.png" alt="" /></span>
+
+									<p>I've always had a lot of enjoyment for game design concepts, but I have a history of starting projects because I'm forever stuck in the planning phase. This is a sentiment shared by many aspiring game developers.</p>
+                                    <p>So to combat this, one of my friends challenged me to do a mini "3 Hour Jam" where he gives me a keyword at the start and I have to start and "finish" a project in that amount of time.</p>
+
+									<hr class="major" />
+
+									<h2>Theme</h2>
+									<p>For the keyword, I was given "Bloom." Immediately my mind thought about flowers, plants, etc. I was inspired by recent playtime I've had in different games. I've always liked the idea of a "plant sorcerer" type of character so I knew I wanted that to be the central character.</p>
+                                    <p>Given my limited time frame, instead of trying a whole new concept, I decided to just combine elements from several different game elements to save time. This idea took me about 10 minute to come up with and I iterated it over the course of the project. My core inspirations were <a href="https://store.steampowered.com/app/955740/Mini_Healer/">Mini Healer</a>, and <a href="https://store.steampowered.com/app/2352620/Fellowship/">Fellowship</a>.</p>
+                                    <p>I took the side view and general movement mechanics from Mini Healer and the otherall theme and feeling of gameplay of a character from Fellowship named <a href="https://www.youtube.com/watch?v=PfEzBtSMqhY">Sylvie</a>, who has her entire gameplay centered around summoning plants to attack enemies for her.</p>
+
+                                    <hr class="major">
+                                    <h2>Planning</h2>
+                                    <p>So with about 2 hours and 50 minutes left and a vague idea. I started first by just implementing a simple 2D platformer while just thinking of how to design other parts of the gameplay as I go.</p>
+                                    <p>My first major hangup was putting focus in the wrong place, I immediately started looking for art assets instead of implementing gameplay, while I did find a fun sprite courtesy of <a href="https://kiyoz.itch.io/duskborne-enemy-2">KiyoZ</a>. That effort would have been better spent just implementing gameplay logic given my short window.</p>
+                                    <p>One minor regret I have is not taking progress screenshots as I went to document it. A short keyboard shortcut could have saved a few funny bugs and glitches as I progressed.</p>
+
+                                    <hr class="major">
+                                    <h2>Basic Mechanics</h2>
+                                    <p>The player has "seeds." They start with three and can gain more by walking over the little yellow squares that spawn at random intervals. Players use these seeds to create "plants" which are the small green squares, these plants will shoot projectiles at the boss in the upper left hand corner for 10 seconds before it "dies" and becomes a red square.</p>
+                                    <p>Additioanlly, the boss will create what I call "No No Zones" which are the large red rectangles that you see on the bottom or top of screenshots. They spawn and three seconds later they damage the player, lose all your health and it's game over.</p>
+
+                                    <hr class="major">
+                                    <h2>Vines and Math</h2>
+                                    <span class="image main"><img src="images/Bloom Screenshot 2.png" alt="" /></span>
+                                    <p>One fun mechanic that I really wanted and put a lot of priority in was the Vine Attack. I had a fantasy in mind of summoning a lot of vines to grab the monster and "rip it apart." And the more vines you have, the more damage it does. The vines are created from "dead plants" which are the red squares, when you right click, all red plants become vines and attack the boss. I think the mechanic is satisfying and fun.</p>
+                                    <p>I did get stuck on this for a little while, but I think it was worth the effort. The big thing I got stuck on was frankly not trusting my own math knowledge. I wanted to do the following.</p>
+                                    <ol>
+                                        <li>Create a sprite for the vine</li>
+                                        <li>Stretch to the length between the the plant and the boss</li>
+                                        <li>Rotate the "vine" so the angle can actually connect the two points</li>
+                                        <li>And finally place the vine between the two points so it lines up</li>
+                                    </ol>
+
+                                    <p>When I started this, I started Googling this exact thing that I wanted to create, some of the posts were helpful, others were not. At first I tried the <a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Transform.LookAt.html">LookAt</a> function built into Unity but funny enough, that turns the sprite on it's side and makes it disapear.</p>
+                                    <p>Hindsight being 20/20, I don't know why it did not occur to me to just trust my own knowledge in mathematics.</p>
+                                    <p>Getting the length between points was easy, there's a built in Vector3 function <a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Vector3.Distance.html">Distance</a>.</p>
+                                    <p>I only know the location of the enemy and where the "vine" is spawning. So to find the angle. Just minus one position from another to get the diff. Run that through a good old fashioned tangent function, and rotate the vine. There was a funny bug I had here where I forgot to convert the result from radians to degrees, so when I ran the code it looked like it didn't rotate at all and I didn't see it until I clicked on the object and saw a hilariously low number of degrees rotated. Read the documentation folks.</p>
+                                    <p>And finally, placing the vine between the two points was as simple as just taking the x and y totals of the two points, get the average, and just place the vine there.</p>
+
+                                    <hr class="major">
+                                    <h2>Lessons Learned</h2>
+                                    <p>For a three hour jam, don't even look at art, don't even think about it. If I had more time, maybe say a weekend I would spend more time but only after I get the core gameplay elements done.</p>
+                                    <p>I think I did well in identifying what ideas were out of scope for three hours. For example, I thought about giving the character a "grappling hook" where a vine would pull them to the wall. I also thought about making it so you can fall through the platforms with jump and go up from underneath, but my head said that is either really easy or really hard, and I didn't want to take the chance.</p>
+                                    <p>Trust my math knowledge, I paid for this degree so I'm gonna use it.</p>
+                                    
+                                    <hr class="major">
+                                    <h2>The future</h2>
+                                    <p>I will definitely do more of these short three hour jams, it was incredibly fun. I had a blast making it and even showed it to a lot of my friends.</p>
+                                    <p>I have put some thought into future features to add, I already mentioned a grappling hook and jumping through platforms. But I also want a dash where you pull a vine to go forward, health bars, different types of plants, different types of seeds that have a short duration but interesting buffs, and creating different types of attack patterns for the boss, and <a href="https://www.youtube.com/watch?v=VQoOqN32Vw0">damage numbers</a>.</p>
+                                    <p>That being said, this project will go on the shelf for some time while I do other short jams. If I'm still obsessed with this idea after a few weeks, I'll open it back up and see what else I can do.</p>
+
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar"></div>
+
+			</div>
+
+		<!-- Scripts -->
+		 	<script>
+				fetch('sidebar.html')
+					.then(response => response.text())
+					.then(data => {
+						const sidebarElement = document.getElementById('sidebar');
+						sidebarElement.innerHTML = data;
+
+						// 2. Run the initialization function we just created in main.js
+						if (typeof window.initSidebar === 'function') {
+							window.initSidebar();
+						}
+					})
+					.catch(err => console.warn('Sidebar failed to load:', err));
+			</script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			
+
+	</body>
+</html>

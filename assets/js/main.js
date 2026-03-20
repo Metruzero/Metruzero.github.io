@@ -70,6 +70,7 @@
 				});
 
 	// Sidebar.
+	window.initSidebar = function() {
 		var $sidebar = $('#sidebar'),
 			$sidebar_inner = $sidebar.children('.inner');
 
@@ -233,7 +234,7 @@
 					.trigger('resize.sidebar-lock');
 
 				});
-
+			
 	// Menu.
 		var $menu = $('#menu'),
 			$menu_openers = $menu.children('ul').find('.opener');
@@ -258,5 +259,6 @@
 				});
 
 			});
+			};
 
 })(jQuery);
