@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Blackout Harvest</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="/index.html" class="logo"><strong>Alan Michael Diaz</strong></a>
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>Blackout Harvest</h1>
+									</header>
+
+									<span class="image main"><img src="/images/Blackout Harvest Screenshot 1.png" alt="" /></span>
+
+									<p>For my second game jam, I signed up for <a href="https://itch.io/jam/micro-jam-056">Micro Jam 56</a>. The theme of which was "light". The mystery pre-requisite revealed at the start was "Only one light source."</p>
+									<p>For this project I actually had a team, we had three total people. One programmer (myself), one artist, and one sound/composer. We had 48 hours total from the start of the jam to submission.</p>
+									<hr class="major" />
+
+									<h2>Links</h2>
+									<p>Itch.io link: <a href="https://purplebred.itch.io/blackout-harvest">Blackout Harvest</a></p>
+									<p>Github: <a href="https://github.com/Metruzero/MicrojamLight">Repo Link</a></p>
+
+									<h2>Idea Phase</h2>
+									<p>We knew the theme of light ahead of time, but by surprise we got told about the "One Light Source" when the jam started.</p>
+									<p>Our artist proposed an idea before the reveal of the pre-requisite, a survival game where we "harvest light" and sell it. Expanding on the idea, we came up with a 2D top down survival game where you walk around the map collecting as much fuel as possible. In between levels you can sell this fuel to purchase upgrades.</p>
+									<p>After the theme was revealed, we found we can easily adapt this idea and just keep one light source around the player.</p>
+
+                                    <hr class="major">
+                                    <h2>Planning/Or lack there of</h2>
+                                    <p>This is where I get into probably the first major learning I'm taking away from this project. And it was my lack of planning. Knowing I only had 48 hours to put something together, I rushed into implementation right away on the first day.</p>
+									<p>This ended up biting me quite a bit later on. As I had to rewrite large portions of the code as I added new features.</p>
+
+									<hr class="major">
+                                    <h2>Planning/Or lack there of</h2>
+                                    <p>This is where I get into probably the first major learning I'm taking away from this project. And it was my lack of planning. Knowing I only had 48 hours to put something together, I rushed into implementation right away on the first day.</p>
+									<p>This ended up biting me quite a bit later on. As I had to rewrite large portions of the code as I added new features.</p>
+									<p>I would have benefited a lot from thinking through how upgrades would be purchased and given to the necessary components to use it's values. Overall writing some kind of design document before implementation would have saved a lot of time. Even if I only spent 1-2 hours writing up something quick, it could have saved much more time later.</p>
+
+                                    <hr class="major">
+                                    <h2>Unity and URP</h2>
+									<p>One thing I wanted to do better for this jam is to find pre built packages and libraries to help save some work. Given that light was an important theme for the jam, I knew I would need to find something to handle that for me. Creating my own lighting system would only be a nightmare within such a limited time frame of 48 hours.</p>
+									<p>Some brief research brought me to the <a href="https://docs.unity3d.com/Manual/urp/urp-introduction.html">URP (Universal Rendering Pipline)</a>. This was immensely helpful in getting some basic lighting set up with shadows. While there is much more to learn here, my gut instinct to find a lighting library was correct in that this portion of the project was done in simply minutes instead of the horus it would have taken otherwise.</p>
+
+									<hr class="major">
+                                    <h2>Decoupling and Event Handling</h2>
+									<p>This is something I wish I spent time designing early on in the jam. Because this is probably the "bigger" game I've worked on in regards to complexity, I ran into an issue where I had a lot of "manager objects" that all referenced each other and made this nasty ugly web.</p>
+									<p>After some reflection, I started doing research and learning much more about how to use an "<a href="https://refactoring.guru/design-patterns/observer">Observer pattern</a>" and other decoupling methods such as using <a href="https://docs.unity3d.com/6000.4/Documentation/Manual/class-ScriptableObject.html">scriptable objects</a>.</p>
+									<p>I did use scriptable objects later on in the project for things like upgrades, but using them earlier on for things like player stats or resources for the players would have saved a significant amount of time in the long run.</p>
+
+									<hr class="major">
+                                    <h2>Final Thoughts</h2>
+									<p>While there are a lot of things I can improve on, that's the whole reason I'm doing these at all, is to improve my skill and knowledge as a developer. I still had a lot of fun making it and I look forward to making more.</p>
+									
+									
+
+                                    
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar"></div>
+
+			</div>
+
+		<!-- Scripts -->
+		 	<script>
+				fetch('/sidebar.html')
+					.then(response => response.text())
+					.then(data => {
+						const sidebarElement = document.getElementById('sidebar');
+						sidebarElement.innerHTML = data;
+
+						// 2. Run the initialization function we just created in main.js
+						if (typeof window.initSidebar === 'function') {
+							window.initSidebar();
+						}
+					})
+					.catch(err => console.warn('Sidebar failed to load:', err));
+			</script>
+			<script src="/assets/js/jquery.min.js"></script>
+			<script src="/assets/js/browser.min.js"></script>
+			<script src="/assets/js/breakpoints.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+			<script src="/assets/js/main.js"></script>
+			
+
+	</body>
+</html>
