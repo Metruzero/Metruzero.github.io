@@ -93,7 +93,6 @@
 						const sidebarElement = document.getElementById('sidebar');
 						sidebarElement.innerHTML = data;
 
-						// 2. Run the initialization function we just created in main.js
 						if (typeof window.initSidebar === 'function') {
 							window.initSidebar();
 						}

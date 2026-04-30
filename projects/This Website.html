@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Blackout Harvest</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="/index.html" class="logo"><strong>Alan Michael Diaz</strong></a>
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>The Website/Portfolio</h1>
+									</header>
+
+									<p>I've always wanted a website, but the task from ground up always seemed very daunting, lots to learn and do. And I always learn better by simply doing and making iterative progress.</p>
+									<p>The first step for this website was to grab a template online and iterate on that first. This would allow me to get started immediately and make changes over time and passively learn this over time.</p>
+									
+									<hr class="major" />
+
+									<h2>Links</h2>
+									<p>Github: <a href="https://github.com/Metruzero/Metruzero.github.io">Repo Link</a></p>
+
+									<h2>Github Pages</h2>
+									<p>The first step for a website is to get something hosted and up and running. I used a template from HTML5Up and get it hosted on github pages.</p>
+
+									<h2>First changes</h2>
+									<p>I started with very simple edits to change the index, side bar, and the "about me" page. This was simply changing some text and nothing more.</p>
+
+									<h2>Sidebar and Javascript</h2>
+									<p>One of the first issues I came across working on this was the sidebar. The contents of the sidebar were hardcoded into each page. This immediately created a problem where the amount of work needed to add each project would go up over time, in boring repetitive ways.</p>
+									<p>Doing some digging online, I found one way that people solve this issue is to have the sidebar html in a seperate file and have some javascript inject that text into each page. The HTML for this worked but unfortunately problems arised because the javascript needed for the sidebar to work wouldn't load.</p>
+									<p>After some digging, I found this is because the scripts at the end of the html file are loaded asynchronysly. So the sidebar code would be injected before the javascript could be loaded.</p>
+
+									
+
+                                    
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar"></div>
+
+			</div>
+
+		<!-- Scripts -->
+		 	<script>
+				fetch('/sidebar.html')
+					.then(response => response.text())
+					.then(data => {
+						const sidebarElement = document.getElementById('sidebar');
+						sidebarElement.innerHTML = data;
+
+						if (typeof window.initSidebar === 'function') {
+							window.initSidebar();
+						}
+					})
+					.catch(err => console.warn('Sidebar failed to load:', err));
+			</script>
+			<script src="/assets/js/jquery.min.js"></script>
+			<script src="/assets/js/browser.min.js"></script>
+			<script src="/assets/js/breakpoints.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+			<script src="/assets/js/main.js"></script>
+			
+
+	</body>
+</html>

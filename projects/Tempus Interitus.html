@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Tempus Interitus</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="/index.html" class="logo"><strong>Alan Michael Diaz</strong></a>
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>Tempus Interitus</h1>
+									</header>
+
+									<span class="image main"><img src="/images/wFKzSe.png" alt="" /></span>
+
+									<p>For my second game jam, I signed up for <a href="https://itch.io/jam/the-eye-jam2">Eye Jam 2</a>. This jam centers around Cosmic Horror, of which I am a huge fan. The sub-theme was revealed at the start of the jam to be "decay."</p>
+									<p>Our team had 5 people. One programmer (myself), two artists, one sound/composer, and one scenario writer. We had one week from the start time of the jam to complete the project.</p>
+									<hr class="major" />
+
+									<h2>Links</h2>
+									<p>Itch.io link: <a href="https://purplebred.itch.io/tempus-interitus">Tempus Interitus</a></p>
+									<p>Github: <a href="https://github.com/Metruzero/EyeJam2DecayGame">Repo Link</a></p>
+
+									<h2>Idea Phase</h2>
+									<p>From the beginning we knew the game would have to be cosmic horror related. There was a sub theme revealed at the start of the jam, "decay."</p>
+									<p>One team member proposed a game that had a "time loop" where the player's body would decay over the course of the game and then be brought back to the beginning. After more deliberation, we decided on a point and click adventure game where the player's time would keep getting reset, bringing them back to a "healthy" state where they would begin to decay again.</p>
+
+									<h2>Planning/Design</h2>
+									<p>From the last jam, one thing I wanted to change with this jam was to really set aside time at the start to design the architecture of the code so that the implementation can be simple.</p>
+									<p>One problem I had last time was there was a lot of spaghetti code and it wasn't really flexible. If I wanted to add a new upgrade, level or pickup, I would have to write more code and make a bunch of changes in different places. While this is somewhat excusable for a 48 hour project, I wanted to change my approach for this project as we had one week.</p>
+									<p>My approach was to research common ways that people implement point and click adventure games to figure out the best way to implement it within Unity. Given that point and click games often use 2D backgrounds or at a scene with a static camera, I know that managing how players would move between scenes would be important. As well as managing the items, interactables, and all of the different actions that can happen in the game. All while needing to be able to reset EVERYTHING every minute.</p>
+
+									<h2>Interactable</h2>
+									<p>The first step was to code up the base interaction system. This would need to detect where the player is clicking on the screen and whether or not they clicked on something of interest.</p>
+									<p>This was fun to do but ultimately had a simple solution, especially since Unity handles a good amount of the work. Whenever the player clicks on the screen, it grabs the screen position, translates that to a position within the world, which will then fire a raycast forward and return the object that it hit.</p>
+									<p>The control system fires this raycast, and returns the first "Interactable" that it finds.</p>
+
+									<span class="image main"><img src="/images/Nwfcyr.png"></span>
+
+									<h2>GameActions and Command Pattern</h2>
+									<p>Naturally, coding every interactable object individually is not ideal, so instead, we will implement a <a href="https://refactoring.guru/design-patterns/command">command pattern.</a></p>
+									<p>We will call these game actions. Each interactable object contains a list of game actions, and when the player clicks on this interactable, it will fire every game action within the list. Each GameAction will inherit from a bsae class and use run the Execute function while sending in interaction context into the object that it might need to run the action.</p>
+									<p>Game published with 13 different types of actions, this allowed us to modify inventory for the player, play sounds, move between rooms, change game states, etc. Many of these have parameters can be set, such as what sound will be played, what items will be changed in the inventory, what room we will change too, the list goes on.</p>
+
+									<h2>GameConditions and Specification Pattern</h2>
+									<p>But we don't want every interactable to do the same action everytime it is clicked. So I implemented a <a href="https://matt.berther.io/2005/03/25/the-specification-pattern-a-primer/">specification pattern</a> to help control when an action fires.</p>
+									<p>So I created GameConditions in order to help with this. What they do is a single "check" function that goes over some conditions that can be configured and return true if it passes. An example GameCondition would be "CheckHeldItem". This can be created as a scriptable object and set to any item in the game. When the check function is run, it will compare the item the player is currently "holding" to the item that is set in the parameter.</p>
+									<p>Fortunately since they can configured individually, I only ended up with 3 game actions. And I just change a single parameter when setting it up in Unity.</p>
+
+                                    <h2>Implementation</h2>
+									<p>From this point, the implementation was very easy. I was implementing the assets faster than the artists were producing and sending it to me. The process just involved clicking and dragging images, sounds and text into the Unity editor.</p>
+
+									<h2>Group Work</h2>
+									<p>Our team was notably bigger than our previous jam, with it came some new challenges. This section isn't about technical problems or implementation but more so lessons in project management and communication.</p>
+									<p>The first thing I can look at as a possible improvement to communication is helping to provide more clear design goals for other team mates. During initial discussions, we ended our "meeting" without laying out clear action items for the team. We had action items but they were too vague and open. We ended up losing time because multiple team members did not have clear direction and ended up working on things that were not relelvant to the task or not productive.</p>
+									<p>So while our scope was appropriate for the week, because of the last point, the artists didn't know what to work on, the scenario writer spent time brainstorming puzzles that would take too much time to implement, and the sound effects team member couldn't make any assets.</p>
+									<p>After some lost days, I got some of the team members into a call together and we sorted out some of the details better and formed better action items for the following days. After this call, the progress went significantly faster than before.</p>
+
+									<span class="image main"><img src="/images/wsJk+5.png"></span>
+
+									<h2>Conclusion</h2>
+									<p>This was a great jam to work on, got to work on a project within my favorite genre of fiction and I will absolutely work in EyeJam3 when it's announced.</p>
+									<p>This project has not only helped increase my confidence but also helped get more experience working with team mates across different disciplines.</p>
+
+									<span class="image main"><img src="/images/Eye_sprite.png"></span>
+
+                                    
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar"></div>
+
+			</div>
+
+		<!-- Scripts -->
+		 	<script>
+				fetch('/sidebar.html')
+					.then(response => response.text())
+					.then(data => {
+						const sidebarElement = document.getElementById('sidebar');
+						sidebarElement.innerHTML = data;
+
+						if (typeof window.initSidebar === 'function') {
+							window.initSidebar();
+						}
+					})
+					.catch(err => console.warn('Sidebar failed to load:', err));
+			</script>
+			<script src="/assets/js/jquery.min.js"></script>
+			<script src="/assets/js/browser.min.js"></script>
+			<script src="/assets/js/breakpoints.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+			<script src="/assets/js/main.js"></script>
+			
+
+	</body>
+</html>
