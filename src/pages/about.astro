@@ -1,0 +1,358 @@
+---
+// The About page: bio, work history, skills, education, and life outside work.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Tags from '../components/Tags.astro';
+
+// Each job is one entry. Newest first.
+interface Job {
+  role: string;
+  company: string;
+  location?: string;
+  dates: string;
+  summary: string;
+  highlights: string[];
+  tags: string[];
+  link?: { href: string; label: string }; // optional "see more" link
+}
+
+const jobs: Job[] = [
+  {
+    role: 'Independent developer',
+    company: 'Self-employed',
+    dates: '2025 – now',
+    summary: 'Game jams and personal projects.',
+    highlights: [
+      'Shipped three games as the sole programmer on teams of up to five.',
+      'Rebuilt this website from a template into a custom Astro and TypeScript site.',
+      'Actively working on developing and releasing a game.',
+    ],
+    tags: ['Unity', 'C#', 'Astro', 'TypeScript'],
+    link: { href: '/projects', label: 'See the projects' },
+  },
+  {
+    role: 'Assistant director',
+    company: 'iD Tech Camps',
+    location: 'LA County, CA',
+    dates: 'Summers 2025 & 2026',
+    summary: 'A summer STEM camp for students aged 7 to 17.',
+    highlights: [
+      'Ran daily operations for a team of 13 instructors.',
+      'Gave direct feedback on performance and improvements to team members and my manager.',
+    ],
+    tags: ['Leadership', 'Coaching', 'Teaching'],
+  },
+  {
+    role: 'Software engineer',
+    company: 'Google',
+    location: 'Cambridge, MA',
+    dates: 'Jun 2022 – Apr 2025',
+    summary: 'Performance and reliability on the Google Cloud Front End dataplane.',
+    highlights: [
+      'Cut CPU utilization by 5% across a fleet of hundreds of machines, lowering operating costs and raising request throughput.',
+      'Contributed performance and metrics improvements to the open-source Envoy Proxy, including clearer storage and reporting of stats.',
+      'Added overload management reporting that caught and blocked performance regressions before production.',
+      'Owned the staging environment: triaging, debugging, and halting breaking changes before they reached a live environment.',
+      'Shipped a change to remote, resource-constrained machines within tight CPU and memory limits, and rolled it out safely.',
+      'Ran end-to-end rollouts of new features, from deployment through billing pipelines and usage metrics.',
+      'Wrote Python integration tests covering the critical paths of the proxy to catch regressions before release.',
+    ],
+    tags: ['C++', 'Python', 'Networking', 'TLS', 'Protocol Buffers', 'Bazel', 'Linux'],
+  },
+];
+
+// Skills grouped by kind. Only list what you'd be happy to be asked about in an interview.
+const skills = [
+  { group: 'Languages', items: ['C++', 'Python', 'C#', 'TypeScript'] },
+  { group: 'Systems', items: ['Networking', 'TLS', 'Linux', 'Protocol Buffers'] },
+  { group: 'Tools and practices', items: ['Bazel', 'Docker', 'Git', 'CI/CD', 'GoogleTest'] },
+  { group: 'Testing', items: ['Integration testing', 'Regression testing'] },
+  { group: 'Also', items: ['Unity', 'Astro'] },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="About Alan Diaz: background, work history at Google and beyond, skills, and education."
+>
+  <div class="page">
+    <section class="bio" aria-labelledby="about-heading">
+      <div class="bio-text">
+        <h1 id="about-heading">About me</h1>
+        <p>
+          I'm a software engineer who likes making systems faster and more reliable. For
+          nearly three years at Google, I worked on the Google Cloud Front End dataplane,
+          where I cut CPU use across a fleet of hundreds of machines and contributed
+          performance improvements to the open-source Envoy Proxy.
+        </p>
+        <p>
+          I've loved math and computer science for as long as I can remember. Since Google,
+          I've led a team of 13 instructors at a STEM summer camp, tutored students, and
+          built games in game jams to stretch into new kinds of programming.
+        </p>
+        <p>I'm looking for a new role in software engineering.</p>
+      </div>
+      <div class="photo" role="img" aria-label="Photo of Alan Diaz (coming soon)">
+        <span aria-hidden="true">photo</span>
+      </div>
+    </section>
+
+    <section aria-labelledby="experience-heading">
+      <h2 id="experience-heading">Experience</h2>
+      <ol class="timeline">
+        {
+          jobs.map((job) => (
+            <li class="job">
+              <p class="dates">{job.dates}</p>
+              <div class="job-body">
+                <h3>
+                  {job.role} <span class="company">· {job.company}</span>
+                </h3>
+                {job.location && <p class="location">{job.location}</p>}
+                <p class="job-summary">{job.summary}</p>
+                <ul class="highlights">
+                  {job.highlights.map((highlight) => (
+                    <li>{highlight}</li>
+                  ))}
+                </ul>
+                {job.link && (
+                  <p class="job-link">
+                    <a href={job.link.href}>{job.link.label} →</a>
+                  </p>
+                )}
+                <Tags tags={job.tags} />
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <div class="two-col">
+      <section aria-labelledby="skills-heading">
+        <h2 id="skills-heading">Skills</h2>
+        <dl class="skills">
+          {
+            skills.map((skill) => (
+              <div>
+                <dt>{skill.group}</dt>
+                <dd>
+                  <Tags tags={skill.items} />
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </section>
+
+      <section aria-labelledby="education-heading">
+        <h2 id="education-heading">Education</h2>
+        <p class="degree">B.S. Computer Science</p>
+        <p class="school">Western Connecticut State University</p>
+        <p class="school">Danbury, CT · Graduated December 2021</p>
+      </section>
+    </div>
+
+    <section aria-labelledby="outside-heading">
+      <h2 id="outside-heading">Outside of work</h2>
+      <p>Storytelling, event planning, game jams, and card games.</p>
+      <p>
+        I also tutor math and computer science. <a href="/tutoring">Learn about tutoring →</a>
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: 52rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  section > p + p,
+  .bio-text p + p {
+    margin-top: 1rem;
+  }
+
+  /* Bio: text on the left, photo on the right */
+  .bio {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .bio-text p {
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+
+  .photo {
+    aspect-ratio: 4 / 5;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  /* Experience timeline */
+  .timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .job {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .dates {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    padding-top: 0.3rem;
+  }
+
+  /* The vertical line, with an amber dot for each job */
+  .job-body {
+    position: relative;
+    border-left: 1px solid var(--border);
+    padding: 0 0 2.5rem 1.5rem;
+  }
+
+  .job:last-child .job-body {
+    padding-bottom: 0;
+  }
+
+  .job-body::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 0.55rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .company {
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .location {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .job-summary {
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .highlights {
+    margin: 0 0 1rem;
+    padding-left: 1.1rem;
+  }
+
+  .highlights li {
+    margin-bottom: 0.35rem;
+  }
+
+  .job-link {
+    margin: -0.25rem 0 1rem;
+    font-size: 0.95rem;
+  }
+
+  .highlights li::marker {
+    color: var(--accent);
+  }
+
+  /* Skills and education side by side */
+  .two-col {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+
+  .skills {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  dt {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: lowercase;
+    margin-bottom: 0.4rem;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .degree {
+    font-weight: 500;
+  }
+
+  .school {
+    color: var(--muted);
+  }
+
+  section > p.school {
+    margin-top: 0.1rem;
+  }
+
+  /* Phones: stack everything */
+  @media (max-width: 40rem) {
+    .bio {
+      grid-template-columns: 1fr;
+    }
+
+    .photo {
+      order: -1;
+      width: 10rem;
+    }
+
+    .job {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+
+    .dates {
+      padding: 0 0 0 1.5rem;
+    }
+
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

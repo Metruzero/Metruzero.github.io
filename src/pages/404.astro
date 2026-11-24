@@ -1,0 +1,58 @@
+---
+// Shown for any address that doesn't exist.
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found" description="This page doesn't exist.">
+  <section class="not-found">
+    <p class="code">NO</p>
+    <h1>This page is lost in the dark.</h1>
+    <p class="lead">
+      The link may be old, or the address may have a typo. Here's where you can go instead:
+    </p>
+    <ul class="links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    max-width: 36rem;
+    margin: 4rem auto;
+    text-align: center;
+  }
+
+  /* A soft amber glow behind the number, like a single light source */
+  .code {
+    display: inline-block;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: clamp(4rem, 15vw, 7rem);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 40px rgb(245 181 68 / 0.45);
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    margin-bottom: 1rem;
+  }
+
+  .lead {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>

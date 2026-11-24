@@ -1,0 +1,84 @@
+---
+// The top bar: name on the left, navigation on the right.
+
+const links = [
+  { href: '/about', label: 'About' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/alan-diaz-resume.pdf', label: 'Résumé' },
+];
+
+// The current page's path, e.g. "/projects/bloom".
+// Used to highlight the nav link for the section you're in.
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) =>
+  currentPath === href || currentPath.startsWith(`${href}/`);
+---
+
+<header>
+  <nav class="container" aria-label="Main">
+    <a href="/" class="name">Alan Diaz</a>
+    <ul>
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class:list={{ active: isActive(link.href) }}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  header {
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.25rem;
+  }
+
+  a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  a:hover,
+  a.active {
+    color: var(--text);
+  }
+
+  .name {
+    color: var(--text);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+
+  ul {
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.95rem;
+  }
+
+  a.active {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.5em;
+  }
+</style>

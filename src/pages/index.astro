@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+// Every project file with `featured: true`, newest first.
+const featured = (await getCollection('projects', (project) => project.data.featured)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<BaseLayout>
+  <section class="intro" aria-labelledby="intro-heading">
+    <div class="intro-text">
+      <p class="eyebrow">// software engineer</p>
+      <h1 id="intro-heading">Hi, I'm Alan.</h1>
+      <p class="lead">
+        Software engineer, formerly at Google. Looking for my next role while working on a variety of independent projects.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="/alan-diaz-resume.pdf">View résumé</a>
+        <a class="button" href="https://github.com/Metruzero">GitHub</a>
+        <a class="button" href="https://www.linkedin.com/in/alan-michael-diaz/">LinkedIn</a>
+      </div>
+    </div>
+    <div class="headshot" role="img" aria-label="Photo of Alan Diaz (coming soon)">
+      <span aria-hidden="true">AD</span>
+    </div>
+  </section>
+
+  <section class="featured" aria-labelledby="featured-heading">
+    <div class="section-header">
+      <h2 id="featured-heading">Featured projects</h2>
+      <a href="/projects">All projects →</a>
+    </div>
+    <div class="grid">
+      {
+        featured.map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            summary={project.data.summary}
+            href={`/projects/${project.id}`}
+            image={project.data.cover}
+            imageAlt={project.data.coverAlt}
+            tags={project.data.tags}
+          />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Intro */
+  .intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 3rem;
+    padding-block: 2rem 4rem;
+  }
+
+  .eyebrow {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    margin-bottom: 1rem;
+  }
+
+  .lead {
+    color: var(--muted);
+    font-size: 1.15rem;
+    max-width: 38rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+      border-color 0.15s,
+      background-color 0.15s;
+  }
+
+  .button:hover {
+    border-color: var(--muted);
+  }
+
+  .button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+
+  .button.primary:hover {
+    background: #f8c56a;
+  }
+
+  /* Placeholder until the real photo is ready */
+  .headshot {
+    width: clamp(9rem, 22vw, 14rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--surface);
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+  }
+
+  /* Featured projects */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .section-header a {
+    color: var(--muted);
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+
+  .section-header a:hover {
+    color: var(--accent);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* Phones: stack the photo above the text */
+  @media (max-width: 40rem) {
+    .intro {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding-block: 1rem 3rem;
+    }
+
+    .headshot {
+      order: -1;
+    }
+  }
+</style>

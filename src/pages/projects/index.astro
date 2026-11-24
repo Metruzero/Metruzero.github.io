@@ -1,0 +1,160 @@
+---
+// The Projects page: every project, newest first, as a list.
+// index.astro inside pages/projects/ is served at /projects.
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Tags from '../../components/Tags.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+// "2026 · Team of 3 · 48 hours": only the parts a project has.
+const metaLine = (project: (typeof projects)[number]) =>
+  [project.data.date.getFullYear(), project.data.team, project.data.duration]
+    .filter(Boolean)
+    .join(' · ');
+---
+
+<BaseLayout
+  title="Projects"
+  description="Software and game projects by Alan Diaz, with write-ups on how each was built."
+>
+  <header class="page-header">
+    <h1>Projects</h1>
+    <p>Everything I've built, newest first, with notes on how and why.</p>
+  </header>
+
+  <ul class="list">
+    {
+      projects.map((project) => (
+        <li class="item">
+          <div class="thumb">
+            {project.data.cover ? (
+              <Image
+                src={project.data.cover}
+                alt=""
+                width={400}
+                loading="lazy"
+              />
+            ) : (
+              <span aria-hidden="true">{project.data.title.charAt(0)}</span>
+            )}
+          </div>
+          <div class="body">
+            <h2>
+              <a href={`/projects/${project.id}`}>{project.data.title}</a>
+            </h2>
+            <p class="meta">{metaLine(project)}</p>
+            <p class="summary">{project.data.summary}</p>
+            <Tags tags={project.data.tags} />
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  .page-header {
+    max-width: 46rem;
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p {
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+
+  .list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* One row: thumbnail on the left, text on the right */
+  .item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .thumb {
+    aspect-ratio: 16 / 10;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    transition: border-color 0.2s;
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .item:hover .thumb,
+  .item:focus-within .thumb {
+    border-color: var(--accent);
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.25rem;
+  }
+
+  /* Same trick as the cards: the title link covers the whole row */
+  h2 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  h2 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .item:hover h2 a {
+    color: var(--accent);
+  }
+
+  .meta {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .summary {
+    margin-bottom: 0.75rem;
+  }
+
+  /* Phones: thumbnail above the text */
+  @media (max-width: 40rem) {
+    .item {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>
