@@ -1,0 +1,264 @@
+---
+// The tutoring page: approach, subjects, how it works, pricing, and how to book.
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const bookingLink =
+  'mailto:diaz.alan.michael@gmail.com?subject=' +
+  encodeURIComponent('Free tutoring consultation');
+
+const subjects = [
+  { name: 'Math', detail: 'All ages and skill levels, from elementary math to advanced calculus and number theory.' },
+  { name: 'Computer science', detail: 'Computer Science Fundamentals, programming, game development.' },
+];
+
+const credentials = [
+  'B.S. in Computer Science from Western Connecticut State University.',
+  'Nearly three years as a software engineer at Google.',
+  'Led a team of 13 instructors at iD Tech, a STEM camp for students aged 7 to 17.',
+];
+
+const steps = [
+  {
+    title: 'Free consultation',
+    text: 'You ask about my teaching style, and I learn about the student so I can prepare them for success.',
+  },
+  {
+    title: 'Sessions',
+    text: 'Each session is planned ahead of time around where the student is and where they want to go.',
+  },
+  {
+    title: 'Follow-up',
+    text: 'After each session, you get an email or call about how it went and what comes next.',
+  },
+];
+---
+
+<BaseLayout
+  title="Tutoring"
+  description="Math and computer science tutoring with Alan Diaz, focused on building real enthusiasm for the subject. Free first consultation."
+>
+  <div class="page">
+    <header class="intro">
+      <p class="eyebrow">// tutoring</p>
+      <h1>Math and computer science tutoring</h1>
+      <p class="lead">
+        I've loved math and computer science my whole life. I've also heard from so many
+        children and adults that they dislike math, which I've always found disappointing.
+      </p>
+      <p>
+        My tutoring focuses on building engagement and enthusiasm for the subject, to set
+        students up for lifelong success. There's a lot to enjoy about learning and
+        mathematics, and my goal is to share that with the people I teach.
+      </p>
+      <a class="button" href={bookingLink}>Book a free consultation</a>
+    </header>
+
+    <section aria-labelledby="subjects-heading">
+      <h2 id="subjects-heading">What I teach</h2>
+      <dl class="subjects">
+        {
+          subjects.map((subject) => (
+            <div>
+              <dt>{subject.name}</dt>
+              <dd>{subject.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="format">
+        I offer online or in person sessions. In person must be held in Oregon.
+      </p>
+    </section>
+
+    <section aria-labelledby="background-heading">
+      <h2 id="background-heading">My background</h2>
+      <ul class="credentials">
+        {credentials.map((credential) => <li>{credential}</li>)}
+      </ul>
+    </section>
+
+    <section aria-labelledby="how-heading">
+      <h2 id="how-heading">How it works</h2>
+      <ol class="steps">
+        {
+          steps.map((step) => (
+            <li>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="pricing" aria-labelledby="pricing-heading">
+      <h2 id="pricing-heading">Pricing</h2>
+      <p class="price"><span>$50</span> per session</p>
+      <p class="includes">
+        Includes lesson prep, the session itself, and a follow-up on the student's progress.
+        The first consultation is free.
+      </p>
+      <a class="button" href={bookingLink}>Book a free consultation</a>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: 46rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .eyebrow {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1rem;
+  }
+
+  .lead {
+    color: var(--muted);
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+  }
+
+  .intro p:not(.eyebrow):not(.lead) {
+    margin-bottom: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.15s;
+  }
+
+  .button:hover {
+    background: #f8c56a;
+  }
+
+  /* What I teach */
+  .subjects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+    margin: 0 0 1rem;
+  }
+
+  .subjects div {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+  }
+
+  dt {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .format {
+    color: var(--muted);
+  }
+
+  /* Background */
+  .credentials {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
+  .credentials li {
+    margin-bottom: 0.5rem;
+  }
+
+  .credentials li::marker {
+    color: var(--accent);
+  }
+
+  .steps {
+    counter-reset: step;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .steps li {
+    counter-increment: step;
+  }
+
+  .steps li::before {
+    content: counter(step, decimal-leading-zero);
+    display: block;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .steps p {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* Pricing card */
+  .pricing {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .pricing h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .price {
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .price span {
+    color: var(--text);
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-right: 0.25rem;
+  }
+
+  .includes {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+</style>

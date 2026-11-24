@@ -1,0 +1,61 @@
+---
+// The footer: contact links on every page.
+
+const contacts = [
+  { href: 'mailto:diaz.alan.michael@gmail.com', label: 'Email' },
+  { href: 'https://github.com/Metruzero', label: 'GitHub' },
+  { href: 'https://www.linkedin.com/in/alan-michael-diaz/', label: 'LinkedIn' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="container">
+    <p>© {year} Alan Diaz</p>
+    <ul>
+      {
+        contacts.map((contact) => (
+          <li>
+            <a href={contact.href}>{contact.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.5rem;
+  }
+
+  ul {
+    display: flex;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--accent);
+  }
+</style>
